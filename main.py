@@ -28,12 +28,19 @@ def browser_setup(browser_name='chrome') -> webdriver:
     if browser_name.lower() == 'chrome':
         options = webdriver.ChromeOptions()
         # ("--start-maximized")
-        options.add_argument('--window-size=1400,1000')
-        # options.add_argument('--headless')
+        # options.add_argument('--window-size=1400,1000')
+        # If run in Docker, below line is to be uncommented
+        options.add_argument('--no-sandbox')
+        options.add_argument('--headless')
         options.page_load_strategy = 'eager'
-        options.add_argument("--no-sandbox")
         driver = webdriver.Chrome(options=options)
 
+        # Create a unique user data directory. This is for Docker
+        # Or any other suitable path
+        user_data_dir = '/tmp/chrome_user_data'
+        # create folder if it doesn't exist already
+        os.makedirs(user_data_dir,exist_ok=True)
+        options.add_argument(f'--user-data-dir={user_data_dir}')
 
         # https://scrapfly.io/blog/web-scraping-without-blocking-using-undetected-chromedriver/
         # https://www.browserscan.net/bot-detection
