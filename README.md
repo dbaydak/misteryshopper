@@ -1,41 +1,73 @@
-# Mystery Shopper
+# Automated User Journey Test Suite
 
-**Mystery Shopper** is a Python-based web scraping and data analysis project designed to gather and analyze data from e-commerce websites.
-
-## Project Goals
-
-* **Web Scraping:** Extract relevant data from e-commerce websites, such as product information, pricing, reviews, and ratings.
-* **Data Analysis:** Analyze the collected data to identify trends, patterns, and insights into customer behavior and market dynamics.
-* **Reporting:** Generate comprehensive reports summarizing the findings, including visualizations and actionable recommendations.
+This project is an automated test suite designed to simulate user journeys on a website, focusing on e-commerce flows and tracking key interactions. It uses Selenium WebDriver to control a web browser and perform actions like clicking, typing, and navigating through pages. The suite captures various details during the test, including cookies, page URLs, and order IDs, and saves the results in JSON format.
 
 ## Features
 
-* **Modular Design:** The project is structured with a modular design, allowing easy extension and customization for different e-commerce platforms.
-* **Efficient Scraping:** Utilizes efficient web scraping techniques and libraries to minimize resource usage and avoid detection.
-* **Data Cleaning and Processing:** Includes robust data cleaning and processing steps to ensure data accuracy and consistency.
-* **Customizable Analysis:** Provides options for customizing the data analysis process, including filtering, aggregation, and statistical analysis.
-* **Visualization:** Generates informative visualizations, such as charts and graphs, to aid in understanding the data.
+* Simulates user journeys based on YAML-defined test cases.
+* Captures cookies, URLs, and order IDs.
+* Saves test results in JSON format.
+* Includes logging for debugging and analysis.
+* Designed for containerized execution with Docker.
 
-## Technologies Used
+## Requirements
 
-* **Python:** The core programming language for the project.
-* **Requests:** For making HTTP requests to fetch web pages.
-* **Beautiful Soup:** For parsing HTML and XML data.
-* **Pandas:** For data manipulation and analysis.
-* **Matplotlib/Seaborn:** For data visualization.
+* Python 3.9
+* Selenium
+* Requests
+* PyYAML
+* undetected-chromedriver
+* selenium-wire
+* blinker
 
-## Getting Started
+## Usage
 
-1. **Clone the repository:** `git clone https://github.com/dbaydak/misteryshopper.git`
-2. **Install dependencies:** `pip install -r requirements.txt`
-3. **Configure the project:** Update the configuration file with the target e-commerce website and desired data points.
-4. **Run the scraper:** `python main.py`
-5. **Analyze the data:** Use the provided Jupyter notebooks or scripts for data analysis and visualization.
+1.  **Install dependencies:**
 
-## Contributing
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Contributions are welcome! Please feel free to submit pull requests or open issues for bug reports and feature suggestions.
+2.  **Define test cases:**
 
-## License
+    Create YAML files in the `campaigns` directory to define user journey test cases. Each YAML file should contain a list of steps, where each step specifies an action (e.g., "goto", "click", "type"). See the existing YAML files in the `campaigns` directory for examples.
 
-This project is licensed under the [MIT License](LICENSE).
+3.  **Run the tests:**
+
+    ```bash
+    python main.py
+    ```
+
+    This will run the tests using Chrome in headless mode. Test results will be saved in the `reports` directory.
+
+## Docker Support
+
+The project includes a Dockerfile for containerized execution. To build and run the tests in a Docker container:
+
+1.  **Build the image:**
+
+    ```bash
+    docker build -t user-journey-tests.
+    ```
+
+2.  **Run the container:**
+
+    ```bash
+    docker run user-journey-tests
+    ```
+
+    This will run the tests inside the container and save the results in the `reports` directory within the container.
+
+## Notes
+
+*   The `reports` directory is excluded from the Docker build context to avoid unnecessary data being copied into the image. If you need to access the reports generated inside the container, you can either modify the Dockerfile to create the `reports` directory during the build process or adjust the `.dockerignore` file.
+*   The test suite is designed to run in headless mode, meaning the browser will not be visible during the tests. If you need to see the browser interactions for debugging purposes, you can remove the `--headless` argument from the `browser_setup` function in `main.py`.
+*   The test suite is currently configured to use Chrome. You can modify the `browser_setup` function in `main.py` to use a different browser (e.g., Firefox or Safari) if needed.
+
+## Future Improvements
+
+*   Add support for more browsers.
+*   Implement more advanced test actions (e.g., JavaScript execution, file uploads).
+*   Integrate with a test reporting tool.
+*   Add support for parallel test execution.
+*   Explore using a cloud-based Selenium Grid for distributed testing.
