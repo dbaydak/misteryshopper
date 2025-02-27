@@ -71,3 +71,14 @@ The project includes a Dockerfile for containerized execution. To build and run 
 *   Integrate with a test reporting tool.
 *   Add support for parallel test execution.
 *   Explore using a cloud-based Selenium Grid for distributed testing.
+
+
+**Explanation:**
+
+* **YAML files:** Define campaigns and user journeys. ->
+* **main.py:** Orchestrates the testing process. ->
+* **Web Driver Setup:** Initializes the browser. ->
+* **Campaign Loading:** Reads campaign data. ->
+* **User Journey Iteration:** Loops through user journeys. ->
+* **Purchase Simulation:** Simulates user actions. ->
+* **Results Saving:** Stores results in JSON format.
